@@ -3,119 +3,141 @@ import SwiftUI
 struct AddPostView: View {
     @Binding var posts: [Post] // Binding to the posts array to add new posts
     @Binding var isPresented: Bool
+    
+    // State variables for form inputs
     @State private var title: String = ""
     @State private var description: String = ""
-
+    @State private var date: Date = Date()
+    @State private var startTime: Date = Date()
+    @State private var endTime: Date = Date()
+    @State private var location: String = ""
+    @State private var collaborator: String = ""
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                Text("Add Project")
-                    .font(.largeTitle)
-                    .padding()
-                
-                TextField("Title", text: $title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-
-                TextField("Description", text: $description)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-            
-                Button(action: {
-                                    savePost()
-                                }) {
-                                    Text("Save Post")
-                                        .font(.title2)
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(Color.blue)
-                                        .cornerRadius(10)
-                                }
-                                .padding()
-
-                                Button(action: {
-                                    cancelPost()
-                                }) {
-                                    Text("Cancel")
-                                        .font(.title2)
-                                        .foregroundColor(.red)
-                                        .padding()
-                                        .background(Color.gray.opacity(0.2))
-                                        .cornerRadius(10)
-                                }
-                                .padding()
-                                
-                                Spacer()
-                            }
-                            .navigationTitle("Add Project")
-                            .navigationBarItems(leading: Button("Close") {
-                                cancelPost()
-                            })
-                        }
-                    }
+            ScrollView {
+                VStack {
+                    // Title input
+                    TextField("Title", text: $title)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
                     
-                    // Function to save the post and dismiss the view
-                    private func savePost() {
-                        let newPost = Post(title: title, description: description)
-                        posts.append(newPost) // Add the new post to the posts array
-                        resetFields() // Clear the text fields
-                        isPresented = false // Dismiss the view and navigate back to HomeView
-                    }
+                    // Description input with character limit
+                    TextField("Description", text: $description)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        .onChange(of: description) { newValue, transaction in
+                            if newValue.count > 50 {
+                                description = String(newValue.prefix(50))
+                            }
+                        }
+                    
+                    // Date picker for selecting the date, start and end time
+                    DatePicker("Pick Date", selection: $date, displayedComponents: .date)
+                        .datePickerStyle(GraphicalDatePickerStyle())
+                        .padding()
+                    
+                    
+                    DatePicker("Select Start Time", selection: $startTime, displayedComponents: .hourAndMinute)
+                       .datePickerStyle(GraphicalDatePickerStyle())
+                       .padding(.horizontal)
 
-                    // Function to cancel the post creation and dismiss the view
-                    private func cancelPost() {
-                        resetFields() // Clear the text fields
-                        isPresented = false
-                        // Dismiss the view and navigate back to HomeView
+                    
+                    DatePicker("Select End Time", selection: $endTime, displayedComponents: .hourAndMinute)
+                       .datePickerStyle(GraphicalDatePickerStyle())
+                       .padding(.horizontal)
+                                       
+                    
+                    // Location input
+                    TextField("Location", text: $location)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    
+                    // Collaborator description input with character limit
+                    TextField("Collaborator Description", text: $collaborator)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        .onChange(of: collaborator) { newValue, transaction in
+                            if newValue.count > 30 {
+                                collaborator = String(newValue.prefix(30))
+                            }
+                        }
+                    
+                    // Save button
+                    Button(action: {
+                        savePost()
+                    }) {
+                        Text("Save Post")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
                     }
-
-                    // Function to reset the text fields
-                    private func resetFields() {
-                        title = "" // Clear the title field
-                        description = "" // Clear the description field
+                    .padding()
+                    
+                    // Cancel button
+                    Button(action: {
+                        cancelPost()
+                    }) {
+                        Text("Cancel")
+                            .font(.title2)
+                            .foregroundColor(.red)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
                     }
+                    .padding()
+                    
+                    Spacer()
                 }
+                .padding(.bottom, 50) // Add padding at the bottom to ensure scrollable content is fully visible
+            }
+            .navigationTitle("Add Project")
+            .navigationBarItems(leading: Button("Close") {
+                cancelPost()
+            })
+        }
+    }
 
-                #Preview {
-                    AddPostView(posts: .constant([]), isPresented: .constant(true))
-                }
+    // Function to save the post and dismiss the view
+    private func savePost() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
 
-//                Button(action: {
-//                    let newPost = Post(title: title, description: description)
-//                    posts.append(newPost) // Add the new post to the posts array
-//                    isPresented = false // Dismiss the view
-//                    }){
-//                    Text("Save Post")
-//                        .font(.title2)
-//                        .foregroundColor(.white)
-//                        .padding()
-//                        .background(Color.blue)
-//                        .cornerRadius(10)
-//                }
-//                .padding()
-//
-//                Button(action: {
-//                    isPresented = false // Dismiss the view without saving
-//                }) {
-//                    Text("Cancel")
-//                        .font(.title2)
-//                        .foregroundColor(.red)
-//                        .padding()
-//                        .background(Color.gray.opacity(0.2))
-//                        .cornerRadius(10)
-//                }
-//                .padding()
-//                
-//                Spacer()
-//            }
-//            .navigationTitle("Add Project")
-//            .navigationBarItems(leading: Button("Close") {
-//                // Logic to close the view can be added here if needed
-//            })
-//        }
-//    }
-//}
-//
-//#Preview {
-//    AddPostView(posts: .constant([]),isPresented: .constant(true))
-//   }
+        let timeFormatter = DateFormatter()
+        timeFormatter.timeStyle = .short
+
+        // Create a new post and add it to the posts array
+        let newPost = Post(
+            title: title,
+            description: description,
+            date: dateFormatter.string(from: date),
+            time: "\(timeFormatter.string(from: startTime)) - \(timeFormatter.string(from: endTime))",
+            location: location,
+            collaborator: collaborator
+        )
+        posts.insert(newPost, at: 0) // Add the new post to the top of the posts array
+        resetFields() // Clear the input fields
+        isPresented = false // Dismiss the view
+    }
+
+    // Function to cancel post creation and dismiss the view
+    private func cancelPost() {
+        resetFields() // Clear the input fields
+        isPresented = false // Dismiss the view
+    }
+
+    // Function to reset the input fields
+    private func resetFields() {
+        title = ""
+        description = ""
+        location = ""
+        collaborator = ""
+    }
+}
+
+#Preview {
+    AddPostView(posts: .constant([]), isPresented: .constant(true))
+}
+

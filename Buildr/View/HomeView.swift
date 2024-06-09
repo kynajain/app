@@ -8,31 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var isAddPostViewActive = false
-    @State private var posts: [Post] = []
+    @State private var isAddPostViewActive = false // Variable to control the presentation of the AddPostView
+    @State private var posts: [Post] = ExamplePosts
+    @State private var bookmarkedPosts: [Post] = [] // State to hold bookmarked posts
+    @State private var searchText: String = "" // variable to hold the search text
 
-    
     var body: some View {
         // Wrapping the TabView with NavigationStack to manage navigation at the top level
         NavigationStack {
             TabView {
-                // Each tab's content is wrapped in a NavigationView to enable navigation within each tab
-                NavigationView {
-                VStack { // layout doesnt work 
-                    HomePageDetails() // Home Tab
-                    
-                    List(posts) { post in
-                        VStack(alignment: .leading) {
-                            Text(post.title)
-                                .font(.headline)
-                            Text(post.description)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
+                NavigationView { // Each tab's content is wrapped in a NavigationView to enable navigation within each tab
+                    VStack {
+                        // Using HomePageDetails to get filtered posts
+                        HomePageDetails(posts: $posts, bookmarkedPosts: $bookmarkedPosts, searchText: $searchText)
                     }
-//                    .navigationTitle("Buildr")
+                    .navigationTitle("Event")
                     .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            // Search bar in the toolbar
+                            SearchBar(text: $searchText)
+                        }
                         ToolbarItem(placement: .navigationBarTrailing) {
+                            // Plus button in the toolbar
                             Button(action: {
                                 isAddPostViewActive = true
                             }) {
@@ -40,17 +37,15 @@ struct HomeView: View {
                             }
                         }
                     }
+                    .sheet(isPresented: $isAddPostViewActive) { // Present the AddPostView when isAddPostViewActive is true
+                        AddPostView(posts: $posts, isPresented: $isAddPostViewActive)
+                    }
                 }
-                .navigationTitle("Events")
-                .sheet(isPresented: $isAddPostViewActive) {
-                    AddPostView(posts: $posts, isPresented: $isAddPostViewActive)
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
                 }
-            }
-            .tabItem {
-                Image(systemName: "house")
-                Text("Home")
-            }
-                
+
                 // Network Tab
                 NavigationView {
                     NetworkView()
@@ -68,10 +63,10 @@ struct HomeView: View {
                     Image(systemName: "text.bubble")
                     Text("Chat")
                 }
-                
+
                 // Profile Tab
                 NavigationView {
-                    ProfileView()
+                    ProfileView(bookmarkedPosts: $bookmarkedPosts)
                 }
                 .tabItem {
                     Image(systemName: "person")
@@ -80,81 +75,36 @@ struct HomeView: View {
             }
         }
     }
-
 }
 
-struct HomePageDetails: View {
+struct SearchBar: View {
+    @Binding var text: String // Binding to the search text
+
     var body: some View {
-        //        VStack {
-        //            // Header with title and buttons
-        //            HStack {
-        //                Text("Buildr")
-        //                    .font(.largeTitle)
-        //                    .fontWeight(.bold)
-        //                Spacer()
-        //                HStack {
-        //                    Button(action: {}) {
-        //                        Text("Feed")
-        //                    }
-        //                    .padding()
-        //                    Button(action: {}) {
-        //                        Text("Events")
-        //                    }
-        //                    .padding()
-        //                    .background(Capsule().stroke(lineWidth: 1))
-        //                }
-        //            }
-        //            .padding()
-        //
-        // Scrollable list of event cards
-        ScrollView {
-            VStack(spacing: 20) {
-                ForEach(0..<2) { _ in
-                    EventCard()
+        HStack {
+            // Search icon
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.gray)
+            // Text field for search input
+            TextField("Search...", text: $text, onCommit: {
+                // Clear the search text when the user presses return
+                text = ""
+            })
+            .padding(7)
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
+            
+            // Clear button
+            if !text.isEmpty {
+                Button(action: {
+                    text = ""
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
                 }
             }
         }
-    }
-}
-
-struct EventCard: View {
-    var body: some View {
-        // Layout for individual event card
-        VStack(alignment: .leading, spacing: 10) {
-            Text("10 am, 15 June 2024")
-                .font(.caption)
-                .foregroundColor(.gray)
-            HStack {
-                Circle()
-                    .frame(width: 30.0)
-                    .foregroundColor(.gray)
-                
-                Text("Building chat feature of AI tool")
-                    .font(.headline)
-                    .fontWeight(.bold)
-            }
-            HStack {
-                Image(systemName: "clock")
-                Text("4-6pm")
-                Spacer()
-                Image(systemName: "doc.text")
-                Text("Brief")
-            }
-            .font(.subheadline)
-            .foregroundColor(.gray)
-            HStack {
-                Image(systemName: "location")
-                Text("BL/link")
-                Spacer()
-                Image(systemName: "magnifyingglass")
-                Text("UI designer")
-            }
-            .font(.subheadline)
-            .foregroundColor(.gray)
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke())
-        .padding(.horizontal)
+        .padding(.horizontal, 10)
     }
 }
 
@@ -164,17 +114,3 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
-
-//
-//VStack(){
-//    Text("Events")
-//        .font(.largeTitle)
-//        .fontWeight(.bold)
-//}
-
-//struct HomePageDetails_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomePageDetails()
-//    }
-//}
-

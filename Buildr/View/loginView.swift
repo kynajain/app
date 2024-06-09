@@ -10,6 +10,7 @@ struct LoginView: View {
     // State variables to hold the username and password input
     @State private var username: String = ""
     @State private var password: String = ""
+    // State variables to check incorrect login
     @State private var isLoggedIn: Bool = false
     @State private var showAlert: Bool = false
 
@@ -67,7 +68,6 @@ struct LoginView: View {
     }
 
     func login() {
-        print("Attempting login with Username: \(username), Password: \(password)")
         if username == correctUsername && password == correctPassword {
             isLoggedIn = true
             print("Login successful")
