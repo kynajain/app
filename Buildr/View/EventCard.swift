@@ -2,19 +2,20 @@
 //  EventCard.swift
 //  Buildr
 //
-//  Created by Kyna Jain on 09/06/24.
+//  Created by Kyna Jain on 3/06/24.
 //
-
 import SwiftUI
 
 struct EventCard: View {
     let post: Post
+    // Binding to the list of bookmarked posts and user chats from the HomeView
     @Binding var bookmarkedPosts: [Post]
+    @Binding var users: [UserChat]
 
     var body: some View {
-        // Main container for the event card
+        // Creating main container for the event card
         VStack(alignment: .leading, spacing: 10) {
-            // Display the date
+            // Displaying the date
             Text(post.date)
                 .font(.caption)
                 .foregroundColor(.gray)
@@ -23,28 +24,22 @@ struct EventCard: View {
             // Aligning the profile image, title, and bookmark button
             HStack {
                 // Profile image placeholder
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(.gray)
-                
+                NavigationLink(destination: UserProfileView(user: post.user)) {
+                    Image(post.user.profileImage)
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                        .clipShape(Circle())
+                        .foregroundColor(.gray)
+                }
                 // Title of the event
                 Text(post.title)
                     .font(.headline)
                     .fontWeight(.bold)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                
-                // Bookmark button
-                Button(action: {
-                    toggleBookmark(post)
-                }) {
-                    // Change the icon based on the bookmark status
-                    Image(systemName: isBookmarked(post) ? "bookmark.fill" : "bookmark")
-                        .foregroundColor(.blue)
-                }
             }
-            // Aligning items
+            
+            // Aligning the time and description
             HStack {
                 Image(systemName: "clock")
                 Text(post.time)
@@ -56,6 +51,7 @@ struct EventCard: View {
             .foregroundColor(.gray)
             .fixedSize(horizontal: false, vertical: true)
             
+            // Aligning location and collaborator
             HStack {
                 Image(systemName: "location")
                 Text(post.location)
@@ -66,46 +62,75 @@ struct EventCard: View {
             .font(.subheadline)
             .foregroundColor(.gray)
             .fixedSize(horizontal: false, vertical: true)
+            
+            // Bookmark and reply buttons
+            HStack {
+                Button(action: {
+                    toggleBookmark(post:post)
+                }) {
+                    // Changing the icon based on the bookmark status
+                    Image(systemName: isBookmarked(post: post) ? "bookmark.fill" : "bookmark")
+                        .foregroundColor(.indigo)
+                }
+                
+                // Handling the index and linking post and chat usesr
+                if let userIndex = users.firstIndex(where: { $0.user.id == post.user.id }) {  // Used Chatgpt 3.5 for understanding how to link both ids
+                    NavigationLink(destination: ChatDetailView(userIndex: userIndex, users: $users)) {
+                        Image(systemName: "arrowshape.turn.up.left")
+                            .foregroundColor(.indigo)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing) // Aligning buttons to the right
+        
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 10).stroke())
-        .frame(maxWidth: .infinity, maxHeight: 200) // Ensure the card takes full width
+        .background(
+            RoundedRectangle(cornerRadius: 10) // Adding background
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+        )
+        .frame(maxWidth: .infinity, maxHeight: 200) // Ensuring the card takes full width width
         .padding(.horizontal)
     }
 
     // Function to handle bookmarking logic
-    private func toggleBookmark(_ post: Post) {
-        // Check if the post is already bookmarked
-        if let index = bookmarkedPosts.firstIndex(where: { $0.id == post.id }) {
-            // If bookmarked, remove it
-            bookmarkedPosts.remove(at: index)
+    private func toggleBookmark(post: Post) {
+        var indexToRemove = -1 // Using -1 to represent not found
+
+        for (index, bookmarkedPost) in bookmarkedPosts.enumerated() {
+            if bookmarkedPost.id == post.id {
+                indexToRemove = index // Storing the index of the post to remove later
+                break
+            }
+        }
+        // If indexToRemove has a value, the post is already bookmarked
+        if indexToRemove != -1 {
+            bookmarkedPosts.remove(at: indexToRemove)
         } else {
-            // If not bookmarked, add it
             bookmarkedPosts.append(post)
         }
     }
-    
+
     // Function to check if a post is bookmarked
-    private func isBookmarked(_ post: Post) -> Bool {
-        // Return true if the post is found in the bookmarked posts array
-        return bookmarkedPosts.contains(where: { $0.id == post.id })
+    private func isBookmarked(post: Post) -> Bool {
+        // Check if the post is in the bookmarkedPosts array
+        for bookmarkedPost in bookmarkedPosts {
+            if bookmarkedPost.id == post.id {
+                return true
+            }
+        }
+        return false
     }
+
 }
 
 struct EventCard_Previews: PreviewProvider {
-    @State static var posts: [Post] = [
-        Post(title: "Sample Event", description: "This is a sample description.", date: "10 June 2024", time: "10 am - 12 pm", location: "Library", collaborator: "John Doe")
-    ]
     @State static var bookmarkedPosts: [Post] = []
+    @State static var users = sampleUsers
     
     static var previews: some View {
-        EventCard(post: posts[0], bookmarkedPosts: $bookmarkedPosts)
-            .previewLayout(.sizeThatFits)
+        // Providing preview with sample data
+        EventCard(post: ExamplePosts[0], bookmarkedPosts: $bookmarkedPosts, users: $users)
     }
 }
-
-
-//
-//#Preview {
-//    EventCard()
-//}

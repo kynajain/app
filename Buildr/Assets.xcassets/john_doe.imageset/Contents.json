@@ -1,14 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "john.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "john 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "john 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

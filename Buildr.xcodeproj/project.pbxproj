@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C70A25532C136D8500FFB6B7 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70A25522C136D8500FFB6B7 /* ChatDetailView.swift */; };
 		C70A25552C136DF100FFB6B7 /* UserChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70A25542C136DF100FFB6B7 /* UserChat.swift */; };
-		C749BB8A2C131B0C001B8B3E /* AddPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749BB892C131B0B001B8B3E /* AddPostViewModel.swift */; };
 		C76A0AF62C11DB3000427A40 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A0AF52C11DB3000427A40 /* HomeView.swift */; };
 		C76A0B012C121FA600427A40 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A0B002C121FA600427A40 /* ProfileView.swift */; };
 		C76A0B032C121FC600427A40 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A0B022C121FC600427A40 /* ChatView.swift */; };
@@ -21,10 +20,12 @@
 		C7A14E4A2C10B25A00362AB0 /* BuildrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A14E492C10B25A00362AB0 /* BuildrUITests.swift */; };
 		C7A14E4C2C10B25A00362AB0 /* BuildrUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A14E4B2C10B25A00362AB0 /* BuildrUITestsLaunchTests.swift */; };
 		C7A2817E2C12E49E005DE2B5 /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2817D2C12E49D005DE2B5 /* AddPostView.swift */; };
-		C7A281802C12E6B1005DE2B5 /* NetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A2817F2C12E6B1005DE2B5 /* NetworkView.swift */; };
 		C7D6D0462C1490DC0041A2FB /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6D0452C1490DC0041A2FB /* PostModel.swift */; };
 		C7D6D0482C1493210041A2FB /* HomePageDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6D0472C1493210041A2FB /* HomePageDetails.swift */; };
 		C7D6D04C2C15274B0041A2FB /* EventCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6D04B2C15274A0041A2FB /* EventCard.swift */; };
+		C7D6D04E2C1594960041A2FB /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6D04D2C1594950041A2FB /* SignUpView.swift */; };
+		C7D6D0502C15BEE80041A2FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6D04F2C15BEE80041A2FB /* User.swift */; };
+		C7D6D0522C15C0E20041A2FB /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D6D0512C15C0E20041A2FB /* UserProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +48,6 @@
 /* Begin PBXFileReference section */
 		C70A25522C136D8500FFB6B7 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		C70A25542C136DF100FFB6B7 /* UserChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChat.swift; sourceTree = "<group>"; };
-		C749BB892C131B0B001B8B3E /* AddPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewModel.swift; sourceTree = "<group>"; };
 		C76A0AF52C11DB3000427A40 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		C76A0B002C121FA600427A40 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		C76A0B022C121FC600427A40 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -62,10 +62,12 @@
 		C7A14E492C10B25A00362AB0 /* BuildrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildrUITests.swift; sourceTree = "<group>"; };
 		C7A14E4B2C10B25A00362AB0 /* BuildrUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildrUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C7A2817D2C12E49D005DE2B5 /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
-		C7A2817F2C12E6B1005DE2B5 /* NetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkView.swift; sourceTree = "<group>"; };
 		C7D6D0452C1490DC0041A2FB /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		C7D6D0472C1493210041A2FB /* HomePageDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageDetails.swift; sourceTree = "<group>"; };
 		C7D6D04B2C15274A0041A2FB /* EventCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCard.swift; sourceTree = "<group>"; };
+		C7D6D04D2C1594950041A2FB /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		C7D6D04F2C15BEE80041A2FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C7D6D0512C15C0E20041A2FB /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				C70A25542C136DF100FFB6B7 /* UserChat.swift */,
-				C749BB892C131B0B001B8B3E /* AddPostViewModel.swift */,
+				C7D6D04F2C15BEE80041A2FB /* User.swift */,
 				C7D6D0452C1490DC0041A2FB /* PostModel.swift */,
 			);
 			path = Models;
@@ -108,14 +110,15 @@
 			children = (
 				C7A14E2E2C10B25500362AB0 /* BuildrApp.swift */,
 				C7A14E302C10B25500362AB0 /* loginView.swift */,
+				C7D6D04D2C1594950041A2FB /* SignUpView.swift */,
 				C76A0AF52C11DB3000427A40 /* HomeView.swift */,
 				C7D6D04B2C15274A0041A2FB /* EventCard.swift */,
+				C7D6D0512C15C0E20041A2FB /* UserProfileView.swift */,
 				C7D6D0472C1493210041A2FB /* HomePageDetails.swift */,
 				C76A0B002C121FA600427A40 /* ProfileView.swift */,
 				C76A0B022C121FC600427A40 /* ChatView.swift */,
 				C70A25522C136D8500FFB6B7 /* ChatDetailView.swift */,
 				C7A2817D2C12E49D005DE2B5 /* AddPostView.swift */,
-				C7A2817F2C12E6B1005DE2B5 /* NetworkView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -309,14 +312,15 @@
 				C70A25532C136D8500FFB6B7 /* ChatDetailView.swift in Sources */,
 				C76A0AF62C11DB3000427A40 /* HomeView.swift in Sources */,
 				C7D6D04C2C15274B0041A2FB /* EventCard.swift in Sources */,
-				C7A281802C12E6B1005DE2B5 /* NetworkView.swift in Sources */,
 				C7A2817E2C12E49E005DE2B5 /* AddPostView.swift in Sources */,
 				C7A14E312C10B25500362AB0 /* loginView.swift in Sources */,
 				C76A0B032C121FC600427A40 /* ChatView.swift in Sources */,
 				C76A0B012C121FA600427A40 /* ProfileView.swift in Sources */,
+				C7D6D0502C15BEE80041A2FB /* User.swift in Sources */,
 				C7D6D0482C1493210041A2FB /* HomePageDetails.swift in Sources */,
 				C70A25552C136DF100FFB6B7 /* UserChat.swift in Sources */,
-				C749BB8A2C131B0C001B8B3E /* AddPostViewModel.swift in Sources */,
+				C7D6D0522C15C0E20041A2FB /* UserProfileView.swift in Sources */,
+				C7D6D04E2C1594960041A2FB /* SignUpView.swift in Sources */,
 				C7A14E2F2C10B25500362AB0 /* BuildrApp.swift in Sources */,
 				C7D6D0462C1490DC0041A2FB /* PostModel.swift in Sources */,
 			);

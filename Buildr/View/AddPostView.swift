@@ -1,8 +1,14 @@
+//
+//  ItemDetailsView.swift
+//  Buildr
+//
+//  Created by Kyna Jain on 04/06/24.
+//
 import SwiftUI
 
 struct AddPostView: View {
     @Binding var posts: [Post] // Binding to the posts array to add new posts
-    @Binding var isPresented: Bool
+    @Binding var isPresented: Bool // Controlling the view presentation
     
     // State variables for form inputs
     @State private var title: String = ""
@@ -13,6 +19,9 @@ struct AddPostView: View {
     @State private var location: String = ""
     @State private var collaborator: String = ""
     
+    // Variable for the user data
+        var user: User
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -22,7 +31,7 @@ struct AddPostView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                     
-                    // Description input with character limit
+                    // Adding description input with limit
                     TextField("Description", text: $description)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
@@ -53,7 +62,7 @@ struct AddPostView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                     
-                    // Collaborator description input with character limit
+                    // Adding collaborator input with caharcter limit
                     TextField("Collaborator Description", text: $collaborator)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
@@ -71,7 +80,7 @@ struct AddPostView: View {
                             .font(.title2)
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.blue)
+                            .background(Color.indigo)
                             .cornerRadius(10)
                     }
                     .padding()
@@ -91,7 +100,7 @@ struct AddPostView: View {
                     
                     Spacer()
                 }
-                .padding(.bottom, 50) // Add padding at the bottom to ensure scrollable content is fully visible
+                .padding(.bottom, 50) // Add padding at the bottom to ensure scrollable content is visible
             }
             .navigationTitle("Add Project")
             .navigationBarItems(leading: Button("Close") {
@@ -108,21 +117,23 @@ struct AddPostView: View {
         let timeFormatter = DateFormatter()
         timeFormatter.timeStyle = .short
 
-        // Create a new post and add it to the posts array
+        // Creating a new post and adding it to the posts array
         let newPost = Post(
             title: title,
             description: description,
             date: dateFormatter.string(from: date),
             time: "\(timeFormatter.string(from: startTime)) - \(timeFormatter.string(from: endTime))",
             location: location,
-            collaborator: collaborator
+            collaborator: collaborator,
+            user: user
         )
-        posts.insert(newPost, at: 0) // Add the new post to the top of the posts array
-        resetFields() // Clear the input fields
-        isPresented = false // Dismiss the view
+        posts.insert(newPost, at: 0) // Adding the new post to the top of the posts array
+        // Resetting fields and closing view
+        resetFields()
+        isPresented = false
     }
 
-    // Function to cancel post creation and dismiss the view
+    // Function to cancel post creation
     private func cancelPost() {
         resetFields() // Clear the input fields
         isPresented = false // Dismiss the view
@@ -138,6 +149,6 @@ struct AddPostView: View {
 }
 
 #Preview {
-    AddPostView(posts: .constant([]), isPresented: .constant(true))
+    AddPostView(posts: .constant([]), isPresented: .constant(true), user: User(name: "John Doe", profileImage: "profile-placeholder", bio: "A passionate web developer."))
 }
 

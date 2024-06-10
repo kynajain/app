@@ -2,27 +2,31 @@
 //  homePage.swift
 //  Buildr
 //
-//  Created by Kyna Jain on 06/06/24.
+//  Created by Kyna Jain on 30/05/24.
 //
-//
+
 import SwiftUI
 
 struct HomeView: View {
     @State private var isAddPostViewActive = false // Variable to control the presentation of the AddPostView
+    // State to display presxiting posts and to hold bookmarked posts
     @State private var posts: [Post] = ExamplePosts
-    @State private var bookmarkedPosts: [Post] = [] // State to hold bookmarked posts
+    @State private var bookmarkedPosts: [Post] = []
     @State private var searchText: String = "" // variable to hold the search text
+    @State private var users: [UserChat] = sampleUsers // State to hold chat users
+    @State private var currentUser : User = loggedInUser  // variable to hold current user
+   
 
     var body: some View {
-        // Wrapping the TabView with NavigationStack to manage navigation at the top level
+        // Wrapping the TabView with NavigationStack to manage navigation on al l pages
         NavigationStack {
             TabView {
-                NavigationView { // Each tab's content is wrapped in a NavigationView to enable navigation within each tab
+                NavigationView {
                     VStack {
-                        // Using HomePageDetails to get filtered posts
-                        HomePageDetails(posts: $posts, bookmarkedPosts: $bookmarkedPosts, searchText: $searchText)
+                        // getting filtered/bookmarked posts
+                        HomePageDetails(posts: $posts, bookmarkedPosts: $bookmarkedPosts, searchText: $searchText, users: $users)
                     }
-                    .navigationTitle("Event")
+                    .navigationTitle("Events")
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             // Search bar in the toolbar
@@ -31,14 +35,14 @@ struct HomeView: View {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             // Plus button in the toolbar
                             Button(action: {
-                                isAddPostViewActive = true
+                                isAddPostViewActive = true //Present AddPostView
                             }) {
                                 Image(systemName: "plus")
                             }
                         }
                     }
-                    .sheet(isPresented: $isAddPostViewActive) { // Present the AddPostView when isAddPostViewActive is true
-                        AddPostView(posts: $posts, isPresented: $isAddPostViewActive)
+                    .sheet(isPresented: $isAddPostViewActive) { // Present the AddPostView when isAddPostViewActive is true and add content of the sheet
+                        AddPostView(posts: $posts, isPresented: $isAddPostViewActive, user: currentUser)
                     }
                 }
                 .tabItem {
@@ -46,18 +50,9 @@ struct HomeView: View {
                     Text("Home")
                 }
 
-                // Network Tab
-                NavigationView {
-                    NetworkView()
-                }
-                .tabItem {
-                    Image(systemName: "network")
-                    Text("Network")
-                }
-
                 // Chat Tab
                 NavigationView {
-                    ChatView()
+                    ChatView(users: $users)
                 }
                 .tabItem {
                     Image(systemName: "text.bubble")
@@ -66,7 +61,7 @@ struct HomeView: View {
 
                 // Profile Tab
                 NavigationView {
-                    ProfileView(bookmarkedPosts: $bookmarkedPosts)
+                    ProfileView(bookmarkedPosts: $bookmarkedPosts, users: $users, currentUser: $currentUser)
                 }
                 .tabItem {
                     Image(systemName: "person")
@@ -82,24 +77,20 @@ struct SearchBar: View {
 
     var body: some View {
         HStack {
-            // Search icon
+            // Search
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
-            // Text field for search input
-            TextField("Search...", text: $text, onCommit: {
-                // Clear the search text when the user presses return
-                text = ""
-            })
-            .padding(7)
-            .background(Color(.systemGray6))
-            .cornerRadius(8)
+            TextField("Search...", text: $text)
+                .padding(7)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
             
-            // Clear button
+            // Cancel search button
             if !text.isEmpty {
                 Button(action: {
-                    text = ""
+                    text = "" // Clearing text
                 }) {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: "xmark.circle.fill") //cancel icon
                         .foregroundColor(.gray)
                 }
             }
@@ -108,9 +99,10 @@ struct SearchBar: View {
     }
 }
 
-// Preview for HomeView
+
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
     }
 }
+

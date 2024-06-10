@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Buildr
 //
-//  Created by Kyna Jain on 05/06/24.
+//  Created by Kyna Jain on 30/05/24.
 //
 import SwiftUI
 
@@ -22,7 +22,6 @@ struct LoginView: View {
             VStack(spacing: 20) {
                 Image("buildr_logo")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
                     .frame(width: 200, height: 200)
                     .cornerRadius(10)
                 
@@ -49,14 +48,23 @@ struct LoginView: View {
                         .font(.title2)
                         .foregroundColor(.white)
                         .padding()
-                        .background(Color.black)
+                        .background(Color.indigo)
                         .cornerRadius(10)
                 }
-                .navigationDestination(isPresented: $isLoggedIn) {
+
+                .navigationDestination(isPresented: $isLoggedIn) { //Navigation to HomeView when isLoggedIn is true
                     HomeView()
+                        .navigationBarBackButtonHidden(true) //hiding back button
+                }
+                // Adding NavigationLink for the Sign Up text
+                NavigationLink(destination: SignUpView()) {
+                    Text("Don't have an account? Sign up")
+                        .foregroundColor(.blue)
+                        .padding(.top)
                 }
             }
             .padding()
+            //Error alert message for incorrect login
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("Invalid credentials"),
@@ -64,16 +72,16 @@ struct LoginView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+            
         }
     }
 
     func login() {
         if username == correctUsername && password == correctPassword {
             isLoggedIn = true
-            print("Login successful")
         } else {
             showAlert = true
-            print("Login failed: Invalid credentials")
+            print("Login failed")
         }
     }
 }
